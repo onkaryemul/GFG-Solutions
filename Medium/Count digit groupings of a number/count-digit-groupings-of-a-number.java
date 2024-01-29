@@ -27,60 +27,51 @@ class GFG
 
 class Solution
 {
+    int[][] dp;
+    
+    
     public int TotalCount(String str)
     {
         // Code here
         int n = str.length();
-        int[] suffix = new int[n+1];
-        int MAX = 0;
         
-        for(int i = n - 1; i >= 0 ; i--) {
-            suffix[i] = suffix[i+1] + (str.charAt(i) - '0');
-            MAX += (str.charAt(i) - '0');
-        }
-     
-        int[][] dp = new int[n + 1][MAX + 1];  
+        dp = new int[n][9*n];
         
-        
-        for(int i=0; i<n; i++) {
-            for(int j = suffix[0] - suffix[i+1]; j < MAX + 1; j++) {
-                dp[i][j] = 1;
-            }
+        for(int[] arr : dp) {
+            Arrays.fill(arr, -1);
         }
         
-        
-        for(int end=0; end < n; end++) {
-            for(int sum = 0; sum < MAX+1; sum++) {
-                int low = -1;
-                int high = end + 1;
-                
-                while(low < high - 1) {
-                    int mid = low + (high - low)/2;
-                    
-                    int curr_sum = suffix[mid] - suffix[end + 1];
-                    
-                    if(curr_sum <= sum) {
-                        high = mid;
-                    } 
-                    else {
-                        low = mid;
-                    }
-                }
-                
-                
-                for(int br=high; br < end+1; br++) {
-                    int curr_sum = suffix[br] - suffix[end + 1];
-                    
-                    if(curr_sum <= sum) {
-                        dp[end][sum] += (br > 0 ? dp[br-1][curr_sum] : 0);
-                    }
-                }
-            }
-        }
-        
-        return dp[n-1][MAX];
+        // index = 0
+        // sum = 0
+        return grouping(str, 0, 0);
     }
     
+    
+    private int grouping(String str, int index, int sum) {
+        // Base case
+        if(index == str.length()) {
+            return 1;
+        }
+        
+        if(dp[index][sum] != -1) {
+            return dp[index][sum];
+        }
+        
+        int ans = 0;
+        
+        int currentSum = 0;
+        
+        for(int i=index; i < str.length(); i++) {
+            currentSum += (str.charAt(i) - '0');
+            
+            if(currentSum >= sum) {
+                ans += grouping(str, i+1, currentSum);
+            }
+        }
+        
+        
+        return dp[index][sum] = ans;
+    }
 }
 
 
