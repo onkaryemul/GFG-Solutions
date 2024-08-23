@@ -109,12 +109,13 @@ class GfG {
 //User function Template for Java
 
 /* A Binary Tree node
-
-class Node {
+class Node
+{
     int data;
     Node left, right;
 
-    Node(int item) {
+    Node(int item)
+    {
         data = item;
         left = right = null;
     }
@@ -122,23 +123,24 @@ class Node {
 */
 
 
-class Tree
-{
+class Tree {
+    
     // TC : O(n)
-    // SC : O(n), indicating that we can use Iterative approach also (ie. level order traversal)
+    // SC : O(height of the tree) or O(n), indicating that we can use Iterative approach also (ie. level order traversal)
+    
     
     //Function to return list containing elements of left view of binary tree.
     ArrayList<Integer> leftView(Node root) {
        // Your code here
        ArrayList<Integer> leftViewNodes = new ArrayList<>();
        
-       recursiveLeftView(root, 0, leftViewNodes); // Preorder traversal : Root - Left - Right
+       recursiveLeftView(root, 0, leftViewNodes); // Preorder traversal: Root - Left - Right
        
        return leftViewNodes;
     }
     
     
-    // PreOrder Traversal: Root - Left - Right
+    // Preorder Traversal : Root - Left - Right
     private void recursiveLeftView(Node root, int level, ArrayList<Integer> leftViewNodes) {
         // Base case
         if(root == null) {
@@ -146,16 +148,14 @@ class Tree
         }
         
         // Check if the size of the leftViewNodes list is equal to the current level
-        // If yes, then add the current node's data to the list
-        if(leftViewNodes.size() == level) {
+        if(leftViewNodes.size() == level) { // if yes, then add the current node's data to the list
             leftViewNodes.add(root.data);
         }
         
-        recursiveLeftView(root.left, level+1, leftViewNodes); // left child with an increased lvel
-        
-        recursiveLeftView(root.right, level+1, leftViewNodes); // right child with an increased level
+        recursiveLeftView(root.left, level + 1, leftViewNodes); // left child with an increased level
+    
+        recursiveLeftView(root.right, level + 1, leftViewNodes); // right child with an increase level
     }
-    
-    
+ 
 }
 
