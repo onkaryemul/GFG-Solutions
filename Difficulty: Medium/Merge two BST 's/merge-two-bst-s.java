@@ -92,15 +92,12 @@ class GFG {
 
 
 // User function Template for Java
-
 /*
-class Node
-{
+class Node {
     int data;
     Node left, right;
 
-    public Node(int d)
-    {
+    public Node(int d) {
         data = d;
         left = right = null;
     }
@@ -110,65 +107,76 @@ class Node
 
 class Solution {
     
+    // Better Approach
+    // Optimal solution 
+    
+    // TC : O((m+n) * log(m+n))
+    // SC : O(height of BST1(h1) + height of BST2(h2) + m + n)
+    
+    // Using stack ---> to store left nodes of the tree
+    
     // Function to return a list of integers denoting the node values of both the BST in a sorted order.
     public List<Integer> merge(Node root1, Node root2) {
         // Write your code here
+        List<Integer> res = new ArrayList<>();
+        
         Stack<Node> st1 = new Stack<>();
         Stack<Node> st2 = new Stack<>();
         
         util(root1, st1);
         util(root2, st2);
         
-        List<Integer> result = new ArrayList<>();
-        
         while(!st1.isEmpty() && !st2.isEmpty()) {
             Node top1 = st1.peek();
             Node top2 = st2.peek();
             
             if(top1.data < top2.data) {
-                result.add(top1.data);
+                res.add(top1.data);
                 st1.pop();
                 util(top1.right, st1);
             }
-            else if (top2.data < top1.data) {
-                result.add(top2.data);
+            else if(top2.data < top1.data) {
+                res.add(top2.data);
                 st2.pop();
                 util(top2.right, st2);
             }
             else {
+                res.add(top1.data);
+                res.add(top2.data);
+                
                 st1.pop();
                 st2.pop();
-                
-                result.add(top1.data);
-                result.add(top2.data);
                 
                 util(top1.right, st1);
                 util(top2.right, st2);
             }
         }
         
+        // add the remaining elements if any
         while(!st1.isEmpty()) {
             Node top1 = st1.pop();
-            result.add(top1.data);
+            res.add(top1.data);
             util(top1.right, st1);
         }
         
         while(!st2.isEmpty()) {
             Node top2 = st2.pop();
-            result.add(top2.data);
+            res.add(top2.data);
             util(top2.right, st2);
         }
         
-        return result;
+        return res;
     }
     
     
-    // helper funtion -> to add left nodes of node in stack 
-    private void util(Node root, Stack<Node> st) {
-        while(root != null) {
-            st.push(root);
-            root = root.left;
+    // Helper function -> to push all left nodes of a node(including curr node) to the stack st
+    private void util(Node curr, Stack<Node> st) {
+        while(curr != null) {
+            st.push(curr);
+            curr = curr.left;
         }
     }
+    
 }
+
 
