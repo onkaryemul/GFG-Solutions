@@ -1,8 +1,4 @@
 //{ Driver Code Starts
-// Initial Template for Java
-
-/*package whatever //do not write package name here */
-
 import java.io.*;
 import java.util.*;
 
@@ -15,8 +11,6 @@ class GFG {
         while (t-- > 0) {
             String line = in.readLine();
             String[] tokens = line.split(" ");
-
-            // Create an ArrayList to store the integers
             ArrayList<Integer> array = new ArrayList<>();
 
             // Parse the tokens into integers and add to the array
@@ -24,19 +18,22 @@ class GFG {
                 array.add(Integer.parseInt(token));
             }
 
-            int[] arr = new int[array.size()];
-            int idx = 0;
-            for (int i : array) arr[idx++] = i;
+            int d = Integer.parseInt(in.readLine().trim()); // rotation count (key)
+            int n = array.size();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = array.get(i);
 
-            int key = Integer.parseInt(in.readLine().trim());
-            new Solution().rotateArr(arr, key);
-            StringBuffer sb = new StringBuffer();
+            new Solution().rotateArr(arr, d); // rotating the array
+            StringBuilder sb = new StringBuilder();
 
             // printing the elements of the array
-            for (int t1 = 0; t1 < arr.length; t1++) sb.append(arr[t1] + " ");
-            System.out.println(sb);
+            for (int value : arr) sb.append(value).append(" ");
+            out.println(sb.toString().trim());
+
+            out.println("~");
         }
         out.flush();
+        out.close();
     }
 }
 
@@ -48,31 +45,37 @@ class Solution {
     
     // TC : O(n)
     // SC : O(1)
-
-    // Rotate array left by d steps
-
+    
     // Function to rotate an array by d elements in counter-clockwise direction.
     static void rotateArr(int arr[], int d) {
         // add your code here
-        int n = arr.length; // length of an array
+        int n = arr.length;
         
-        d = d % n; // modular arithmetic concept
+        if(n == 0) {
+            return;
+        }
         
+        d = d % n;
+        
+        // Step 1 : Reverse first d elements
+        reverse(arr, 0, d-1);
+        
+        // Step 2 : Reverse remaining n-d elements
+        reverse(arr, d, n-1);
+        
+        // Step 3 : Reverse the entire array 
         reverse(arr, 0, n-1);
-        reverse(arr, 0, n-d-1);
-        reverse(arr, n-d, n-1);
     }
     
-
+    
     // Helper function
-    // to reverse the elements of arr[] from start to end
-    private static void reverse(int[] arr, int start, int end) {
-        while(start < end) {
-            int temp = arr[start];
-            arr[start] = arr[end];
+    private static void reverse(int[] arr, int st, int end) {
+        while(st < end) {
+            int temp = arr[st];
+            arr[st] = arr[end];
             arr[end] = temp;
             
-            start++;
+            st++;
             end--;
         }
     }
