@@ -41,74 +41,27 @@ class Solution {
     
     // TC : O(n)
     // SC : O(1)
-    
-    // Using Kadane's Algorithm - to calculate the maximum subarray sum
 
     // arr: input array
     // Function to find the sum of contiguous subarray with maximum sum.
     int maxSubarraySum(int[] arr) {
         // Your code here
-        int n = arr.length;
+        int maxSum = Integer.MIN_VALUE;
         
-        int maxi = Integer.MIN_VALUE; // maximum sum
-        int sum = 0;
+        int maxSoFar = 0;
         
-        for(int i=0; i < n; i++) {
-            sum += arr[i];
+        for(int num : arr) {
+            maxSoFar += num;
             
-            if(sum > maxi) {
-                maxi = sum;
-            }
+            maxSum = Math.max(maxSum, maxSoFar);
             
-            // If sum < 0 : discard the sum calculated
-            if(sum < 0) {
-                sum = 0;
+            if(maxSoFar < 0) {
+                maxSoFar = 0;
             }
         }
         
-        return maxi;
+        return maxSum;
     }
     
 }
-
-
-/*
-// Follow-up question : To print the subarray with maximum sum
-    
-    public static long maxSubarraySum(int[] arr, int n) {
-        long maxi = Long.MIN_VALUE; // maximum sum
-        long sum = 0;
-
-        int start = 0;
-        int ansStart = -1, ansEnd = -1;
-        for (int i = 0; i < n; i++) {
-
-            if (sum == 0) start = i; // starting index
-
-            sum += arr[i];
-
-            if (sum > maxi) {
-                maxi = sum;
-
-                ansStart = start;
-                ansEnd = i;
-            }
-
-            // If sum < 0: discard the sum calculated
-            if (sum < 0) {
-                sum = 0;
-            }
-        }
-
-        //printing the subarray:
-        System.out.print("The subarray is: [");
-        for (int i = ansStart; i <= ansEnd; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.print("]n");
-
-        return maxi;
-    }
-
-*/
 
