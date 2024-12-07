@@ -1,26 +1,20 @@
 //{ Driver Code Starts
-// Initial Template for Java
-
 import java.io.*;
-import java.lang.*;
 import java.util.*;
 
 class Sorting {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long t = sc.nextLong();
-
-        while (t-- > 0) {
-            long n = sc.nextLong();
-            long arr[] = new long[(int)n];
-
-            for (long i = 0; i < n; i++) arr[(int)i] = sc.nextLong();
-
-            System.out.println(new Solution().inversionCount(arr, (int)n));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        for (int g = 0; g < t; g++) {
+            String[] str = (br.readLine()).trim().split(" ");
+            int arr[] = new int[str.length];
+            for (int i = 0; i < str.length; i++) arr[i] = Integer.parseInt(str[i]);
+            System.out.println(new Solution().inversionCount(arr));
+            System.out.println("~");
         }
     }
 }
-
 // } Driver Code Ends
 
 
@@ -32,14 +26,15 @@ class Solution {
     // TC : O(n*logn)
     // SC : O(n)
     
-    private static long cnt; // cnt variable to count the pairs (i, j) such i < j && arr[i] > arr[j]
+    // cnt variable to count the pairs (i, j) such i < j && arr[i] > arr[j]
+    private static int cnt;
     
-    // arr[]: Input Array
-    // N : Size of the Array arr[]
     
     // Function to count inversions in the array.
-    static long inversionCount(long arr[], int n) {
+    static int inversionCount(int arr[]) {
         // Your Code Here
+        int n = arr.length;
+        
         cnt = 0;
         
         mergeSort(arr, 0, n-1); // modified merge sort
@@ -49,7 +44,7 @@ class Solution {
     
     
     // Function to perform merge sort
-    private static void mergeSort(long[] arr, int low, int high) {
+    private static void mergeSort(int[] arr, int low, int high) {
         // Base case 
         if(low >= high) {
             return;
@@ -67,11 +62,11 @@ class Solution {
     
     
     // Function to perform merging to two sorted halves
-    private static void merge(long[] arr, int low, int mid, int high) {
-        ArrayList<Long> temp = new ArrayList<>(); // temporary array
+    private static void merge(int[] arr, int low, int mid, int high) {
+        ArrayList<Integer> temp = new ArrayList<>(); // temporary array
         
         int left = low; // starting index of left half of arr
-        int right = mid+1; // starting index of right half of arr
+        int right = mid + 1; // starting index of right half of arr
         
         // Storing elements in the temporary array in a sorted manner
         while(left <= mid && right <= high) {
@@ -105,4 +100,5 @@ class Solution {
     }
     
 }
+
 
