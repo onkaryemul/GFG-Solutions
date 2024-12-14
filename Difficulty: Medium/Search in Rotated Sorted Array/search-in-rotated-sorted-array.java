@@ -29,6 +29,8 @@ public class GFG {
             int key = Integer.parseInt(in.readLine().trim());
 
             out.println(new Solution().search(arr, key));
+
+            out.println("~");
         }
         out.close();
     }
@@ -42,7 +44,9 @@ class Solution {
     // TC : O(logn)
     // SC : O(1)
     
-    // Binary Search 
+    // Optimal Solution
+    // Using Binary Search
+    
     int search(int[] arr, int key) {
         // Complete this function
         int n = arr.length;
@@ -50,31 +54,35 @@ class Solution {
         int l = 0, r = n-1;
         
         while(l <= r) {
-            int mid = l + (r-l)/2;
+            int mid = l + (r - l) / 2;
             
+            // if mid points to the target
             if(arr[mid] == key) {
                 return mid;
             }
-            else if (arr[l] <= arr[mid]) {
+            // if left part is sorted
+            else if(arr[l] <= arr[mid]) {
                 if(arr[l] <= key && key <= arr[mid]) {
-                    r = mid - 1;
+                    r = mid - 1; // element exits
                 }
                 else {
-                    l = mid + 1;
+                    l = mid + 1; // element does not exist
                 }
             }
+            // if right part is sorted
             else {
                 if(arr[mid] <= key && key <= arr[r]) {
-                    l = mid + 1;
+                    l = mid + 1; // element exists
                 }
                 else {
-                    r = mid - 1;
+                    r = mid - 1; // element does not exist
                 }
             }
         }
         
-        return -1;
+        return -1;  // if not found
     }
     
 }
+
 
