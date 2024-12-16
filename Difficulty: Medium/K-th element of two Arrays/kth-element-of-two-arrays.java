@@ -13,19 +13,20 @@ class GFG {
             int k = Integer.parseInt(br.readLine().trim());
 
             String[] line1 = br.readLine().trim().split(" ");
-            int[] arr1 = new int[line1.length];
+            int[] a = new int[line1.length];
             for (int i = 0; i < line1.length; i++) {
-                arr1[i] = Integer.parseInt(line1[i]);
+                a[i] = Integer.parseInt(line1[i]);
             }
 
             String[] line2 = br.readLine().trim().split(" ");
-            int[] arr2 = new int[line2.length];
+            int[] b = new int[line2.length];
             for (int i = 0; i < line2.length; i++) {
-                arr2[i] = Integer.parseInt(line2[i]);
+                b[i] = Integer.parseInt(line2[i]);
             }
 
             Solution ob = new Solution();
-            System.out.println(ob.kthElement(k, arr1, arr2));
+            System.out.println(ob.kthElement(a, b, k));
+            System.out.println("~");
         }
     }
 }
@@ -39,47 +40,52 @@ class Solution {
     // TC : O(log(min(n, m)))
     // SC : O(1)
     
-    // Binary search approach
-    public long kthElement(int k, int arr1[], int arr2[]) {
+    // Using Binary Search ==> Optimal approach
+    
+    public int kthElement(int a[], int b[], int k) {
         // code here
-        int m = arr1.length;
-        int n = arr2.length;
+        int m = a.length;
+        int n = b.length;
         
         if(m > n) {
-            return kthElement(k, arr2, arr1); // greedily searching on the smallest search space
+            return kthElement(b, a, k); // greedily searching on the smallest search space
         }
         
         int left = k; // length of left half
         
-        // Apply binary search --> on smallest array ie. arr1
-        int low = Math.max(0, k-n);
+        // Apply binary search ==> on smallest array ie. a[]
+        int low = Math.max(0, k - n);
         int high = Math.min(k, m);
         
         while(low <= high) {
-            int mid1 = (low + high) >> 1; // (low + high)/2  ->> no. of elements from first array
-            int mid2 = left - mid1; // no. of elements from second array
+            int mid1 = low + (high - low) / 2; // (low + high) / 2 ==> no. of elements from first array
+            int mid2 = left - mid1; // no. of elementws from second array
             
-            // Calculate l1, l2, r1, and r2
-            int l1 = mid1 == 0 ? Integer.MIN_VALUE : arr1[mid1-1];
-            int l2 = mid2 == 0 ? Integer.MIN_VALUE : arr2[mid2-1];
-            int r1 = mid1 < m ? arr1[mid1] : Integer.MAX_VALUE;
-            int r2 = mid2 < n ? arr2[mid2] : Integer.MAX_VALUE;
+            // Calculate l1, l2, r1, r2
+            int l1 = mid1 == 0 ? Integer.MIN_VALUE : a[mid1 - 1];
+            int l2 = mid2 == 0 ? Integer.MIN_VALUE : b[mid2 - 1];
             
-            // Check for valid condition: all elements in left part <= all elements in right half
+            int r1 = mid1 == m ? Integer.MAX_VALUE : a[mid1];
+            int r2 = mid2 == n ? Integer.MAX_VALUE : b[mid2];
+            
+            // Check for valid condition :
+            // all elements in left part <= all elements in right part
             if(l1 <= r2 && l2 <= r1) {
-                return (long)Math.max(l1, l2);
+                 return Math.max(l1, l2);
             }
-            // eliminate the halves
-            else if (l1 > r2) {
+            // Eliminate the halves
+            else if(l1 > r2) {
                 high = mid1 - 1;
             }
             else { // l2 > r1
                 low = mid1 + 1;
             }
+            
         }
         
-        return 0L; // dummy statement
+        return -1; // dummy return statement
     }
     
 }
+
 
