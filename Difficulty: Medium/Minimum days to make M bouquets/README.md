@@ -1,0 +1,11 @@
+<h2><a href="https://www.geeksforgeeks.org/problems/minimum-days-to-make-m-bouquets/1">Minimum days to make M bouquets</a></h2><h3>Difficulty Level : Difficulty: Medium</h3><hr><div class="problems_problem_content__Xm_eO"><p><span style="font-size: 14pt;">You have a row of flowers, where each flower blooms after a specific day. The array <code><strong>arr</strong></code> represents the blooming schedule: <code>arr[i]</code> is the day the flower at position <code>i</code> will bloom. To create a bouquet, you need to collect <strong><code>k</code> <em>adjacent</em></strong> bloomed flowers. Each flower can only be used in one bouquet.</span></p>
+<p><span style="font-size: 14pt;">Your goal is to find the minimum number of days required to make exactly <strong><code>m</code></strong> bouquets. If it is not possible to make <code>m</code> bouquets with the given arrangement, return <code>-1</code>.</span></p>
+<h4><span style="font-size: 18px;"><strong>Examples</strong>:</span></h4>
+<pre><span style="font-size: 18px;"><strong>Input</strong>: arr = [5, 5, 5, 12, 10, 5, 5], m = 2, k = 3
+<strong>Output</strong>: 10
+<strong>Explanation</strong>: After day 5 we can use first three flowers to make first bouquet.<br>Then After day 10 we can use last three flowers to make second bouquet.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input</strong>: </span><span style="font-size: 18px;">arr = [1, 10, 3, 10, 2], m = 3, k = 2</span>
+<span style="font-size: 18px;"><strong>Output</strong>: -1</span>
+<span style="font-size: 18px;"><strong>Explanation</strong>: Total flowers required to make all 3 bouquets are 6, but we have only 5 flowers<br>in total hence it is impossible to make all bouquets.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input:</strong> <code>arr = [7, 7, 3, 7, 7, 7], m = 1, k = 4</code><br><strong>Output:</strong> <code>7</code><br><strong>Explanation:</strong> By day 7, all the flowers have bloomed, allowing us to make the bouquet with 4 flowers.</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:<br></strong>1 &lt;= k &lt;= arr.size() &lt;= 10<sup>5</sup><strong><br></strong></span><span style="font-size: 18px;">1 &lt;= m &lt;= 10<sup>5</sup><br>1 &lt;= arr[i] &lt;= 10<sup>9</sup></span></p></div>
