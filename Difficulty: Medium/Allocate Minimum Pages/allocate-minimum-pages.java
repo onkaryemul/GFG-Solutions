@@ -1,84 +1,89 @@
 //{ Driver Code Starts
 // Initial Template for Java
 
-/*package whatever //do not write package name here */
-
 import java.io.*;
 import java.util.*;
 
 class GFG {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
 
-        int t = sc.nextInt();
+        while (tc-- > 0) {
 
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            int a[] = new int[n];
-
-            for (int i = 0; i < n; i++) {
-                a[i] = sc.nextInt();
+            String[] str = br.readLine().trim().split(" ");
+            int[] a = new int[str.length];
+            for (int i = 0; i < str.length; i++) {
+                a[i] = Integer.parseInt(str[i]);
             }
-            int m = sc.nextInt();
-            Solution ob = new Solution();
-            System.out.println(ob.findPages(n, a, m));
+            String[] nk = br.readLine().trim().split(" ");
+            int k = Integer.parseInt(nk[0]);
+            Solution sln = new Solution();
+            int ans = sln.findPages(a, k);
+
+            System.out.println(ans);
+            System.out.println("~");
         }
     }
 }
 // } Driver Code Ends
 
 
-// User function Template for Java
+// Back-end complete function Template for Java
 class Solution {
     
-    // TC : O(n * log(sum(arr) - max(arr))
+    // TC : O(log(sum(arr) - max(arr)) * n)
     // SC : O(1)
     
+    // Using Binary search on our answers ==> on the range [max(arr), sum(arr)]
     
-    // Binary Search
-    // Maximumm no. of pages allocated to any student should be minimum
+    // Maximum no. of pages allocated to any student should be minimum
     // min(max no. of pages)
     
-    
-    // Function to find minimum number of pages.
-    public static long findPages(int n, int[] arr, int m) {
-        // Your code here
-        // Edge case or Corner case
-        // Check if book allocation is impossible -> when no. of students(m) > no. of books(n)
-        if(m > n) {
-            return (long)-1;
+    public static int findPages(int[] arr, int k) {
+        // code here
+        // arr[] => array of books
+        // arr[i] => no. of pages in ith book
+        
+        // k ==> no. of students
+        
+        int n = arr.length; // no. of books
+        
+        // Edge case / Corner case
+        // Check if book allocation is impossible ==> when no. of students(k) > no. of books(n)
+        if(k > n) {
+            return -1; // impossible to distribute n books among k students
         }
         
-        long low = getMax(arr);
-        long high = getSum(arr);
+        long low = getMax(arr, n);
+        long high = getSum(arr, n);
         
-        // apply binary search
+        // apply binary search on our answers ==> on the range [max(arr), sum(arr)]
         while(low <= high) {
-            long mid = low + (high - low)/2;
+            long mid = low + (high - low) / 2;
             
-            int students = countStudents(arr, mid);
+            int studentCnt = countStudents(arr, n, mid);
             
-            if(students > m) {
+            if(studentCnt > k) {
                 low = mid + 1;
-            } else {
+            }
+            else {
                 high = mid - 1;
             }
         }
         
-        return low;
+        return (int)low;
     }
 
-
-    private static int countStudents(int[] books, long pages) {
-        int n = books.length; // size of books array
-        
+    // Helper function ==> to get total no. of students allocated the books in contiguous manner with 'mid' no. of pages allowed at max for any student
+    private static int countStudents(int[] books, int n, long pages) {
         int studentsCnt = 1; // no. of students who are allocated books
         long pagesStudent = 0; 
         
         for(int i=0; i < n; i++) {
             if(pagesStudent + books[i] <= pages) {
-                pagesStudent += books[i];  // add pages to current student
-            } 
+                pagesStudent += books[i]; // add pages to current student
+            }
             else {
                 studentsCnt++; // add pages to next student
                 pagesStudent = books[i];
@@ -89,30 +94,28 @@ class Solution {
     }
     
     
-    // Function to get maximum element from an array
-    private static long getMax(int[] arr) {
-        long max = Integer.MIN_VALUE;
+    // Helper function => to find max element of arr[] array
+    private static long getMax(int[] arr, int n) {
+        long maxi = (long)arr[0];
         
-        for(int i=0; i < arr.length; i++) {
-            if(max < arr[i]) {
-                max = (long)arr[i];
-            }
+        for(int i=1; i < n; i++) {
+            maxi = Math.max(maxi, (long)arr[i]);
         }
         
-        return max;
+        return maxi;
     }
     
     
-    // Function to get sum of all elements from an array
-    private static long getSum(int[] arr) {
-        long sum = 0;
+    // Helper function => to get the sum of all elements from the given array
+    private static long getSum(int[] arr, int n) {
+        long sum = arr[0];
         
-        for(int i=0; i < arr.length; i++) {
+        for(int i=1; i < n; i++) {
             sum += (long)arr[i];
         }
         
         return sum;
     }
-
-};
+    
+}
 
