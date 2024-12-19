@@ -34,7 +34,7 @@ class Solution {
     // TC : O(logn)
     // SC : O(1)
     
-    // using Binary Search
+    // Using Binary Search
     
     public int kthMissing(int[] arr, int k) {
         // code here
@@ -55,12 +55,13 @@ class Solution {
                 high = mid - 1;
             }
         }
+           
+        // arr[high] + more
+        // more = k - missing
         
-        
-        // arr[high] + more 
-        // more = k - missing 
-        return (high + 1) + k; // (low) + k
+        return (high + 1) + k; // low + k
     }
     
 }
+
 
