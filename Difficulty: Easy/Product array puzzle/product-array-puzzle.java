@@ -6,22 +6,24 @@ import java.util.*;
 
 class GFG {
     public static void main(String args[]) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
         while (t > 0) {
-            int n = sc.nextInt();
-            int[] array = new int[n];
+            String inputLine[] = br.readLine().trim().split(" ");
+            int n = inputLine.length;
+            int arr[] = new int[n];
             for (int i = 0; i < n; i++) {
-                array[i] = sc.nextInt();
+                arr[i] = Integer.parseInt(inputLine[i]);
             }
             Solution ob = new Solution();
-            long[] ans = new long[n];
-            ans = ob.productExceptSelf(array);
+            int[] ans = new int[n];
+            ans = ob.productExceptSelf(arr);
 
             for (int i = 0; i < n; i++) {
                 System.out.print(ans[i] + " ");
             }
             System.out.println();
+            System.out.println("~");
             t--;
         }
     }
@@ -32,30 +34,33 @@ class GFG {
 
 // User function Template for Java
 class Solution {
-    
+
     // TC : O(n)
     // SC : O(n)
     
+    // Using Prefix sum technique => also suffix sum technique
+    
     // Simple Mathematics & simulation
-    public static long[] productExceptSelf(int nums[]) {
+    
+    public static int[] productExceptSelf(int arr[]) {
         // code here
-        int n = nums.length;
+        int n = arr.length;
         
-        long[] prodNums = new long[n];
-        Arrays.fill(prodNums, 1L);
-        
-        // left product
-        long left = 1;
+        int[] prodNums = new int[n];
+        Arrays.fill(prodNums, 1);
+    
+        // left product => using prefix sum technique
+        int left = 1;
         for(int i=0; i < n; i++) {
             prodNums[i] = left;
-            left = left * nums[i];
+            left = left * arr[i];
         }
         
-        // right product
-        long right = 1;
+        // right product => using suffix sum technique
+        int right = 1;
         for(int i=n-1; i >= 0; i--) {
             prodNums[i] = prodNums[i] * right;
-            right = right * nums[i];
+            right = right * arr[i];
         }
         
         return prodNums;
