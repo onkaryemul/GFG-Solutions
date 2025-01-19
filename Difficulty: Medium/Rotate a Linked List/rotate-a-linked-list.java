@@ -17,6 +17,7 @@ class Node {
 
 // } Driver Code Ends
 
+
 /* 
 node of linked list:
 
@@ -24,7 +25,7 @@ class Node {
     int data;
     Node next;
     
-    Node(int d){
+    Node(int d) {
         data=d;
         next=null;
     }
@@ -34,20 +35,23 @@ class Node {
 
 class Solution {
     
-    // TC : O(n+k)
+    // Optimal approach
+    
+    // TC : O(n + k)
     // SC : O(1)
     
-    // Function to rotate a linked list.
+    // function to left rotate linked list k times
     public Node rotate(Node head, int k) {
         // add code here
-        // Edge cases or Corner cases
+        // Edge cases or corner cases
         if(head == null || head.next == null || k == 0) {
             return head;
         }
         
-        // Compute the length
+        // Compute the length of linked list
         int len = 1;
         Node curr = head;
+        
         // Traverse till the last node of the given linked list
         while(curr.next != null) {
             len++;
@@ -57,15 +61,16 @@ class Solution {
         // curr now points to the last node of the linked list
         curr.next = head;
         
-        // k = k%len; // so that k lies in range 0 to n-1
+        k = k % len; // so that k lies in range 0 to len-1
         
         // Go till that node
         while(k-- > 0) {
             curr = curr.next;
         }
         
-        // Make that node as head and break connection
+        // Make curr node next as head & break connection
         head = curr.next;
+        
         curr.next = null;
         
         return head;
@@ -115,6 +120,8 @@ public class GFG {
             Solution ob = new Solution();
             head = ob.rotate(head, k);
             printList(head);
+
+            System.out.println("~");
         }
     }
 }
